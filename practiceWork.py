@@ -3,6 +3,7 @@ import pandas as pd
 
 df = pd.read_csv(r"Attrition by Attack (Updated).csv")
 pd.set_option("display.max_columns", None)
+num_rows = len(df)
 
 st.header('Attrition by Attack')
 
@@ -21,34 +22,48 @@ cEntity = st.checkbox('Contained Entity Name')
 kCriteria = st.checkbox('Kill Criteria')
 kCriteriaAchieved = st.checkbox('Kill Criteria Achieved')
 
+display_col = []
+
+display_row = [False] * num_rows
+
 if design_point:
-    st.write(df.loc[:,["design_point"]])
+    dp1 = st.checkbox('Design Point 1')
+    dp2 = st.checkbox('Design Point 2')
+    dp3 = st.checkbox('Design Point 3')
+    if dp1:
+        display_row = display_row or (df.design_point == 1)
+    if dp2:
+        display_row = display_row or (df.design_point == 2)
+    if dp3:
+        display_row = display_row or (df.design_point == 3)
 if iteration:
-    st.write(df.loc[:, ["iteration"]])
+    display_col.append("iteration")
 if scenarioID:
-    st.write(df.loc[:, ["ScenarioId"]])
+    display_col.append("ScenarioId")
 if iterationID:
-    st.write(df.loc[:, ["IterationId"]])
+    display_col.append("IterationId")
 if attackName:
-    st.write(df.loc[:, ["porthosAttackName"]])
+    display_col.append("porthosAttackName")
 if timeAttack:
-    st.write(df.loc[:, ["time"]])
+    display_col.append("time")
 if airbase:
-    st.write(df.loc[:, ["AirbaseId"]])
+    display_col.append("AirbaseId")
 if pEntity:
-    st.write(df.loc[:, ["porthosEntityId"]])
+    display_col.append("porthosEntityId")
 if aEntity:
-    st.write(df.loc[:, ["athosEntityId"]])
+    display_col.append("athosEntityId")
 if typeName:
-    st.write(df.loc[:, ["entityTypeName"]])
+    display_col.append("entityTypeName")
 if name:
-    st.write(df.loc[:, ["EntityName"]])
+    display_col.append("EntityName")
 if cEntity:
-    st.write(df.loc[:, ["containedEntityName"]])
+    display_col.append("containedEntityName")
 if kCriteria:
-    st.write(df.loc[:, ["killCriteria"]])
+    display_col.append("killCriteria")
 if kCriteriaAchieved:
-    st.write(df.loc[:, ["KillCriteriaAchieved"]])
+    display_col.append("KillCriteriaAchieved")
+
+st.write(df.loc[display_row, display_col])
 
 option = st.selectbox(
     'What kill criteria would you like to see?',
