@@ -63,7 +63,7 @@ if kCriteria:
 if kCriteriaAchieved:
     display_col.append("KillCriteriaAchieved")
 
-st.write(df.loc[display_row, display_col])
+st.write(df.loc[:, display_col])
 
 option = st.selectbox(
     'What kill criteria would you like to see?',
